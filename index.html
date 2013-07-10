@@ -1,0 +1,259 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd"
+    >
+<html manifest="manifest.appcache">
+    <head>
+	<meta name="viewport" content="width=device-width, user-scalable=no" />
+	<style>
+	    body {
+		margin: 0px;
+		padding: 0px;
+		background: black;		
+	    }
+	    #menu-opener {
+		font-size: 12em;
+		color: black;
+	    }
+	    #micanvas {
+		position: absolute;
+		width: 100%;
+		height: 90%;
+		bottom: 0;
+		opacity: 0.8;
+	    }
+	    
+	    #menu {
+		height: 50px;
+		background: black;
+		width: 100%;
+		height: 20px;
+		text-align: center;		
+	    }
+	    
+	    #menu-top {
+		display: block;
+		position: absolute;
+		z-index: 100;
+		width: 25%;		
+		background: blue transparent;
+	    }
+	    
+	    #instructions {
+	       color: red;
+	       font-weight: bold;
+	    }
+	    
+	    #botonera{
+		text-align: center;
+	         color: white;
+		 width:98%;
+		 position: absolute;
+		 top: 25%;	 
+		 
+		 z-index: 100;
+		 background:none;
+		 background-clip: padding-box;     
+		 background: rgba(100,100,100,0.5);
+		 -moz-background-clip: padding;     
+		 -webkit-background-clip: padding;  
+		 -webkit-border-radius: 10px;
+		 -moz-border-radius: 10px;
+		 border-radius:10px; 
+		 border: 10px solid rgba(255,255,255,0.3);
+		 }
+		#botonera-2{
+		 border-radius:3px;
+		 width:100%;
+		 height:25%;
+		 margin:0px;
+		 
+		 }
+		menu{
+		 display:block;
+		 width:100px;
+		 text-align:center;
+		 margin:10px auto;
+		 background:none;
+		 color:#fff;
+		 font:bold;
+		 padding:10px;
+		 background:linear-gradient(#CCC 0%, #333 100%);
+		 background:-moz-linear-gradient(#CCC 0%, #333 100%);
+		 background:-ms-linear-gradient(#CCC 0%, #333 100%);
+		 background:-o-linear-gradient(#CCC 0%, #333 100%);
+		 background:-webkit-linear-gradient(#CCC 0%, #333 100%);
+		 }
+		menu:hover{
+		  background:-moz-linear-gradient(#FFF 0%, #C4C4C4 100%);
+		 background:linear-gradient(#FFF 0%, #DEDEDE 100%);
+		 background:-ms-linear-gradient(#FFF 0%, #DEDEDE 100%);
+		 background:-o-linear-gradient(#FFF 0%, #DEDEDE 100%);
+		 background:-webkit-linear-gradient(#FFF 0%, #DEDEDE 100%);
+		 opacity:0.6;
+		-moz-opacity:0.6;
+		-o-opacity:0.6;
+		-webkit-opacity:0.6;
+		-ms-opacity:0.6;
+		 border-radius:5px;
+		 color:red;
+		 box-shadow:0 0 10px #FFf;
+		-moz-box-shadow:0 0 10px #FFf;
+		-ms-box-shadow:0 0 10px #FFf;
+		-o-box-shadow:0 0 10px #FFf;
+		-webkit-box-shadow:0 0 10px #FFf;
+		 }
+		 #menu a { 
+                        display: block;		 
+			height: 10px;
+			widht: 100%;
+			background: gray;
+		 }
+	</style>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Lunar Lander</title>
+        <script language="javascript" src="ship.js"></script>
+        <script language="javascript" src="world.js"></script>
+	<script language="javascript" src="hammer.js"></script>
+        <script language="javascript">
+	function resizeGame() {
+	    var gameArea = document.getElementById('micanvas');
+	    var widthToHeight = 16 / 9;
+	    var oldWidth = window.innerWidth;
+	    var newWidth = window.innerWidth;
+	    var newHeight = window.innerHeight;
+	    var newWidthToHeight = newWidth / newHeight;
+
+	    newWidth = newHeight * widthToHeight;
+	    if (newWidth > oldWidth) {
+		newWidth = oldWidth;
+	    }
+	    gameArea.style.width = newWidth + 'px';
+	    gameArea.style.marginLeft = ((oldWidth - newWidth) / 2) + 'px';
+	    
+	    /*if (newWidthToHeight > widthToHeight) {
+		newWidth = newHeight * widthToHeight;
+		gameArea.style.width = newWidth + 'px';
+		gameArea.style.marginLeft = ((oldWidth - newWidth) / 2) + 'px';
+	    } else {
+		newHeight = newWidth / widthToHeight;
+		gameArea.style.height = newHeight + 'px';
+	    }*/
+	    
+	}
+
+            function fullScreen(elementName) {
+            
+              element = document.getElementById(elementName);
+              if(element.requestFullScreen) {              
+                element.requestFullScreen();
+              } else if(element.webkitRequestFullScreen ) {
+                element.webkitRequestFullScreen();
+              } else if(element.mozRequestFullScreen) {              
+                element.mozRequestFullScreen();
+              }
+            }
+
+            function start() {
+                world = new World("micanvas", 20);
+                world.construct();
+                world.draw();
+		document.getElementById('botonera').style.display = 'block';
+            }
+	    
+	    function showHide() {				
+		if (document.getElementById('botonera').style.display == 'block') {
+		   document.getElementById('botonera').style.display = 'none';
+		   world.start();
+		} else {
+		   document.getElementById('botonera').style.display = 'block';
+		   world.stop();
+		}
+	    }
+	    
+	    function new_game() {		
+		world = new World("micanvas", 20);
+                world.construct();                
+		world.start();		
+		document.getElementById('botonera').style.display = 'none';
+	    }
+	    
+	    function cont() {
+		world.start();
+		document.getElementById('botonera').style.display = 'none';
+	    }
+	    
+
+            window.onload = function () {                
+		start();
+		resizeGame();
+		window.addEventListener('resize', resizeGame, false);
+		window.addEventListener('orientationchange', resizeGame, false);		
+            }
+            window.addEventListener('load', function() {
+                var canvas = document.getElementById("body");    
+                
+                Hammer(canvas).on("swipeleft", function() {                    
+                    world.keyDown(37);
+                });
+                Hammer(canvas).on("swiperight", function() {                    
+                    world.keyDown(39);
+                });
+                Hammer(canvas).on("swipeup", function() {                    
+                    world.keyDown(40);
+                });
+                Hammer(canvas).on("swipedown", function() {                                        
+                    world.keyDown(40);
+                });
+                
+                Hammer(canvas).on("tap", function() {                    
+                    world.keyDown(78);
+                });
+                
+                Hammer(canvas).on("doubletap", function() {                    
+                   // fullScreen("body");
+                });
+                
+                Hammer(canvas).on("hold", function() {
+                    window.location.reload();
+                });
+                
+                
+                
+            });
+            document.onkeydown = function(event) {
+                event = event || window.event;
+                var e = event.keyCode;
+                world.keyDown(e);
+                // R is restart                
+                if(e == 82) {
+                    window.location.reload();
+                }
+            }
+
+
+        </script>
+    </head>
+    <body id="body" style="overflow: hidden">
+	<div id="menu">	   	   
+	  <a href="#" id="menu-opener" onClick="showHide();">MENU</a>	
+	</div>
+	<header id="botonera">	     	
+	     <img src="howto.png" alt="instructions" id="instructions"/>
+	     <br/>Tap 'New Game' to restart.	
+		<nav id="botonera-2">
+		    <menu><a onClick="new_game();">New Game</a></menu>                    
+		    <menu><a onClick="cont();">Continue</a></menu>         
+		</nav>		
+		Try to land a plain zone with <br/><span id="instructions">LESS THAN 10 on vertical speed</span> 
+		<br/><span id="instructions">ZERO Horizontal speed.</span><br/>
+		As nearest to mountains you land, the most points you get.<br/>
+		
+	</header>
+        <canvas id="micanvas" width="800" height="600" style="background: url('background.png') repeat">
+            Tu navegador no soporta canvas.
+        </canvas>
+        
+        <div style="margin: 100px 0 0 200px; ">
+        </div>
+    </body>
+</html>
